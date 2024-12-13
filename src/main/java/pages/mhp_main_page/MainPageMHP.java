@@ -69,6 +69,8 @@ public class MainPageMHP extends basePage {
         robot.keyPress(KeyEvent.VK_SHIFT);
         robot.keyPress(KeyEvent.VK_1); // Введіть "!"
         robot.keyRelease(KeyEvent.VK_1);
+        robot.keyPress(KeyEvent.VK_1); // Введіть "!"
+        robot.keyRelease(KeyEvent.VK_1);
         robot.keyRelease(KeyEvent.VK_SHIFT);
 
         robot.delay(2000);  // Збільшено затримку тут

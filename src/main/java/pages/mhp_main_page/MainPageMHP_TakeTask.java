@@ -1,10 +1,7 @@
 package pages.mhp_main_page;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -22,6 +19,10 @@ public class MainPageMHP_TakeTask extends basePage {
     }
 
     public final By business_trip_region = By.xpath("//span[text() = 'Головна']");
+    public final By business_trip_task_button = By.xpath("//a[text() = 'Заборгованості немає']");
+    public final By business_trip_task_button_ok = By.xpath("//a[text() = 'OK']");
+
+
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICT_WAIT));
     public MainPageMHP_TakeTask clickbutton() throws AWTException, InterruptedException {
         Thread.sleep(5000);
@@ -68,6 +69,8 @@ public class MainPageMHP_TakeTask extends basePage {
         robot.keyPress(KeyEvent.VK_SHIFT);
         robot.keyPress(KeyEvent.VK_1); // Введіть "!"
         robot.keyRelease(KeyEvent.VK_1);
+        robot.keyPress(KeyEvent.VK_1); // Введіть "!"
+        robot.keyRelease(KeyEvent.VK_1);
         robot.keyRelease(KeyEvent.VK_SHIFT);
 
         robot.delay(2000);  // Збільшено затримку тут
@@ -81,51 +84,36 @@ public class MainPageMHP_TakeTask extends basePage {
     }
 
 
-    public MainPageMHP_Deploy click_button_business_trip_region(){
+    public MainPageMHP_TakeTask click_button_business_trip_region(){
         WebElement test = wait.until(ExpectedConditions.presenceOfElementLocated(business_trip_region));
         test.click();
         return null;
     }
-//    private void switchToFrameWithElement(By elementLocator) {
-//        driver.switchTo().defaultContent(); // Повертаємось в головний контекст
-//
-//        // Перевірка на наявність елемента в головному документі
-//        if (driver.findElements(elementLocator).size() > 0) {
-//            System.out.println("Element found in the main document.");
-//            return; // Елемент знайдено в головному документі
-//        }
-//
-//        // Отримуємо всі iframe на сторінці
-//        List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
-//        System.out.println("Total iframes found: " + iframes.size());
-//
-//        for (WebElement iframe : iframes) {
-//            try {
-//                // Лог: інформація про поточний iframe
-//                String iframeId = iframe.getAttribute("id");
-//                String iframeName = iframe.getAttribute("name");
-//                System.out.println("Switching to iframe with id: " + iframeId + " or name: " + iframeName);
-//
-//                // Перемикаємося на iframe
-//                driver.switchTo().frame(iframe);
-//
-//                // Перевірка чи є елемент у поточному iframe
-//                if (driver.findElements(elementLocator).size() > 0) {
-//                    System.out.println("Element found inside iframe with id: " + iframeId);
-//                    return; // Елемент знайдений, виходимо
-//                }
-//
-//            } catch (Exception e) {
-//                // Лог: повідомлення про помилку, якщо не вдалося перемикнутись на iframe
-//                System.out.println("Error while switching to iframe: " + e.getMessage());
-//            } finally {
-//                // Повертаємось до батьківського контексту після кожної спроби
-//                driver.switchTo().parentFrame();
-//            }
-//        }
-//
-//        // Лог: якщо елемент не знайдений після перевірки всіх iframe
-//        System.out.println("Element not found in any iframe.");
-//    }
+
+    public MainPageMHP_TakeTask click_button_business_trip_task(){
+        WebElement iframeElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//iframe[@class='content-control-iframe' and @src='/Workspace/Form/MHP__Menu__FORM']")));
+        driver.switchTo().frame(iframeElement);
+        WebElement test = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//td[@class='WorklistTableSelectGridArrow' and @title='Open action menu'])[1]")));
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(test).click().pause(Duration.ofSeconds(2)).sendKeys(Keys.ENTER).perform();
+        WebElement test1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[text() = 'Відкрити']")));
+        actions.moveToElement(test1).click().perform();
+        driver.switchTo().defaultContent();
+        return this;
+    }
+    public MainPageMHP_TakeTask click_button_business() throws InterruptedException {
+        Thread.sleep(3000);
+        WebElement iframeElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//iframe[@class='content-control-iframe' and @src='/Workspace/Form/MHP__Menu__FORM']")));
+        driver.switchTo().frame(iframeElement);
+        WebElement test = wait.until(ExpectedConditions.presenceOfElementLocated(business_trip_task_button));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(test).click().perform();
+        test = wait.until(ExpectedConditions.presenceOfElementLocated(business_trip_task_button_ok));
+        Thread.sleep(3000);
+        test.click();
+        driver.switchTo().defaultContent();
+        return null;
+    }
 
 }

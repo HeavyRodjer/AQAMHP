@@ -101,20 +101,12 @@ public class MainPageMHP_CreationTask extends basePage {
     public MainPageMHP_CreationTask click_button_business_trip_region(){
         WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_region));
         test.click();
-//        String test3 = test.getAttribute("textContent");
-//        Assert.assertEquals(test3,"Ініціатор:");
-
         return null;
-
     }
     public MainPageMHP_CreationTask click_button_business_trip_region_items(){
         WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_region_iatems));
         test.click();
-//        String test3 = test.getAttribute("textContent");
-//        Assert.assertEquals(test3,"Ініціатор:");
-
         return null;
-
     }
 //    private void switchToFrameWithElement(By elementLocator) {
 //        driver.switchTo().defaultContent(); // Повертаємось в головний контекст

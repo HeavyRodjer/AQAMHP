@@ -38,9 +38,13 @@ public class MainPageMHP_Deploy extends basePage {
     public final By business_trip_button_ok = By.xpath("//a[text() = 'OK']");
     public final By business_trip_button_date_start = By.xpath("//a[@id = '10b134b0-3157-4107-3dbe-677c00919df0_b09ea425-ab59-ea44-f226-18ccc5c8d2e1_Image']");
     public final By business_trip_button_date_end = By.xpath("//a[@id = '10b134b0-3157-4107-3dbe-677c00919df0_5c90f05c-8859-1839-0b42-4c5984cecc73_Image']");
-    public final By business_trip_button_date_date_start = By.xpath("//a[text() = '13']");
-    public final By business_trip_button_date_date_end= By.xpath("//a[text() = '13']");
+    public final By business_trip_button_date_date_start = By.xpath("//a[text() = '09']");
+    public final By business_trip_button_date_date_end= By.xpath("//a[text() = '09']");
     public final By business_trip_button_approve= By.xpath("//a[@id = '41ad9118-966e-847d-5c5a-bd524fbeef74_6ec82276-6456-132d-198a-5397cc61fbd3']");
+    public final By business_trip_region_1= By.xpath("(//span[text()='Оберіть значення'])[1]");
+    public final By business_trip_region_iatems= By.xpath("//span[text()='ЦО']");
+    public final By business_trip_task_button_ok = By.xpath("//a[text() = 'OK']");
+
    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICT_WAIT));
     public MainPageMHP_Deploy clickbutton() throws AWTException, InterruptedException {
         Thread.sleep(5000);
@@ -82,6 +86,8 @@ public class MainPageMHP_Deploy extends basePage {
         robot.keyPress(KeyEvent.VK_SHIFT);
         robot.keyPress(KeyEvent.VK_1); // Введіть "!"
         robot.keyRelease(KeyEvent.VK_1);
+        robot.keyPress(KeyEvent.VK_1); // Введіть "!"
+        robot.keyRelease(KeyEvent.VK_1);
         robot.keyRelease(KeyEvent.VK_SHIFT);
         robot.delay(2000);  // Збільшено затримку тут
         // Натисніть Enter, щоб увійти
@@ -91,7 +97,8 @@ public class MainPageMHP_Deploy extends basePage {
         driver.navigate().refresh();
         return null;
     }
-    public MainPageMHP_Deploy click_button_business_trip(){
+    public MainPageMHP_Deploy click_button_business_trip() throws InterruptedException {
+        Thread.sleep(3000);
         WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_button));
         test.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(business_trip_task));
@@ -114,6 +121,16 @@ public class MainPageMHP_Deploy extends basePage {
         actions.moveToElement(test).click().sendKeys("Желобков").pause(Duration.ofSeconds(2)).sendKeys(Keys.ENTER).moveToElement(test1).click().perform();
         driver.switchTo().defaultContent();
         return this;
+    }
+    public MainPageMHP_CreationTask click_button_business_trip_region1(){
+        WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_region_1));
+        test.click();
+        return null;
+    }
+    public MainPageMHP_CreationTask click_button_business_trip_region_items(){
+        WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_region_iatems));
+        test.click();
+        return null;
     }
     public MainPageMHP_Deploy change_type_business_trips(){
         WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_change_type_business_trips));
@@ -185,15 +202,15 @@ public class MainPageMHP_Deploy extends basePage {
         test.click();
         test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_button_date_date_end));
         test.click();
-//        String test2 = test.getAttribute("text");
-//        Assert.assertEquals(test2,"Завершення проекту");
         return this;
     }
     public MainPageMHP_Deploy change_save_business_trips(){
         WebElement test = wait.until(ExpectedConditions.elementToBeClickable(business_trip_button_approve));
         test.click();
         String test2 = test.getAttribute("innerText");
-        Assert.assertEquals(test2,"Відрядження було збережено.");
+        Assert.assertEquals(test2,"Розпочати процес");
+        test = wait.until(ExpectedConditions.presenceOfElementLocated(business_trip_task_button_ok));
+        test.click();
         return this;
     }
 

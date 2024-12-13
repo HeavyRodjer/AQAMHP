@@ -23,7 +23,7 @@ public class Listener implements TestWatcher {
         String screenshotName = context.getTestMethod().get().getName() +
                 String.valueOf(System.currentTimeMillis()).substring(9,13);
         LOGGER.info("Try to trace screenshot ");
-        TakesScreenshot ts = (TakesScreenshot) ((baseTest) context.getRequiredTestInstance()).driver;
+        TakesScreenshot ts = (TakesScreenshot) ((BaseTest) context.getRequiredTestInstance()).driver;
 
         File source = ts.getScreenshotAs(OutputType.FILE);
         try {
